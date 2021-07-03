@@ -189,7 +189,7 @@ def mine():
         return jsonify(response), 201
     else:
         response = {
-            'message': 'Adding a block failed.',
+            'message': 'Adding a block failed!',
             'wallet_set_up': wallet.public_key != None
         }
         return jsonify(response), 500
