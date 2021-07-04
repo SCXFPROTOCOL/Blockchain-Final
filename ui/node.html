@@ -10,9 +10,14 @@
         crossorigin="anonymous">
     <style>
         body{
-            padding-top: 5%;
+            padding-top: 3%;
             padding-bottom: 5%;
         }
+
+        .btn{
+            margin-right: 11px;
+        }
+
         .lds-ring {
             display: inline-block;
             position: relative;
@@ -43,6 +48,10 @@
 
         .lds-ring div:nth-child(3) {
             animation-delay: -0.15s;
+        }
+
+        .line{
+            word-wrap: break-word;
         }
 
         @keyframes lds-ring {
@@ -81,7 +90,9 @@
                 {{ error }}
             </div>
             <div v-if="success" class="alert alert-success" role="alert">
-                {{ success }}
+                <div class="line"><strong>{{success}}</strong></div>
+                <div class="line"><strong>Public Key: </strong>{{success_pub}}</div>
+                <div class="line"><strong>Private Key: </strong>{{success_priv}}</div>
             </div>
             <div class="row">
                 <div class="col">
@@ -224,6 +235,8 @@
                 showElement: null,
                 error: null,
                 success: null,
+                success_pub: null,
+                success_priv: null,
                 funds: 0,
                 outgoingTx: {
                     recipient: '',
@@ -247,7 +260,9 @@
                     axios.post('/wallet')
                         .then(function (response) {
                             vm.error = null;
-                            vm.success = 'Created Wallet! Public Key: ' + response.data.public_key + ', Private Key: ' + response.data.private_key;
+                            vm.success = 'Wallet Created!';
+                            vm.success_pub = response.data.public_key;
+                            vm.success_priv = response.data.private_key;
                             vm.wallet = {
                                 public_key: response.data.public_key,
                                 private_key: response.data.private_key
@@ -269,7 +284,9 @@
                     axios.get('/wallet')
                         .then(function (response) {
                             vm.error = null;
-                            vm.success = 'Created Wallet! Public Key: ' + response.data.public_key + ', Private Key: ' + response.data.private_key;
+                            vm.success = 'Wallet Loaded!';
+                            vm.success_pub = response.data.public_key;
+                            vm.success_priv = response.data.private_key;
                             vm.wallet = {
                                 public_key: response.data.public_key,
                                 private_key: response.data.private_key
