@@ -189,10 +189,20 @@ def mine():
         return jsonify(response), 201
     else:
         response = {
-            'message': 'Adding a block failed!',
+            'message': 'Adding a block failed.',
             'wallet_set_up': wallet.public_key != None
         }
         return jsonify(response), 500
+
+
+@app.route('/resolve-conflicts', methods=['POST'])
+def resolve_conflicts():
+    replaced = blockchain.resolve()
+    if replaced:
+        response = {'message': 'Chain was replaced!'}
+    else:
+        response = {'message': 'Local chain kept!'}
+    return jsonify(response), 200
 
 
 @app.route('/transactions', methods=['GET'])
